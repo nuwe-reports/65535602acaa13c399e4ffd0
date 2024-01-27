@@ -89,7 +89,7 @@ public class Appointment {
         this.room = room;
     }
     
-    public boolean overlaps( Appointment appointment){
+    public boolean overlaps(Appointment appointment){
         /// True when:
         // Case 1: A.starts == B.starts
         // Case 2: A.finishes == B.finishes 
