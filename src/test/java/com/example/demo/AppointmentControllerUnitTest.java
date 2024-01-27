@@ -257,7 +257,6 @@ class AppointmentControllerUnitTest{
         when(appointmentRepository.findById(appointment.getId())).thenReturn(opt);
         mockMvc.perform(delete("/api/appointments/" + appointment.getId()))
                 .andExpect(status().isOk());
-                
     }
 
     @Test

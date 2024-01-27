@@ -23,7 +23,6 @@
     <sonar.language>java</sonar.language>
 </properties>
 <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-validation</artifactId>
@@ -32,6 +31,12 @@
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.10.0</version>
+        <scope>test</scope>
     </dependency>
 
     <dependency>
