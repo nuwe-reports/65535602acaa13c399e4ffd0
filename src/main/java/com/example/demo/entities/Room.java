@@ -5,7 +5,6 @@ import javax.persistence.Id;
 
 @Entity
 public class Room {
-
     @Id
     private String roomName;
 
