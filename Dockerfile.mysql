@@ -1,0 +1,6 @@
+# Imagen base
+FROM mysql:latest
+
+# Variables de entorno
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=accwe_hospital

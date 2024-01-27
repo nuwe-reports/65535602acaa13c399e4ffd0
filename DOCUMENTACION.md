@@ -6,10 +6,7 @@ En este proyecto se uso la librería Mockito para realizar los test.
 
 ### EntityUnitTest.java
 En este test se realizó un testing de las entidades(modelos)
-en los cuales verificaba si estos podían ser guardados y antes de ser almacenados
-en la bdd asegurarme de que todos los campos fueran rellenados correctamente, y 
-que por ejemplo en **roomValidationUniqueName()** verificase que no existierá ya
-dicho objeto.
+en los cuales verificaba si estos podían ser guardados.
 
 ### EntityControllerUniTest.java
 
@@ -24,3 +21,23 @@ uso de su valor booleano para que en caso de que ya existierá una cita en dicho
 espació retornará un error como **NOT_ACCEPTABLE**
 
 Posteriormente si todo funciona correctamente guardaría la cita con un **HttpStatus.OK**
+
+### Montando el Proyecto en Docker
+
+* Construimos las imagenes
+
+``` 
+docker build -t mysql-database -f Dockerfile.mysql .
+```
+```
+docker build -t my-microservice -f Dockerfile.maven .
+```
+
+* Ejecutamos los contenedores
+```
+docker run -d --name mysql-container -p 3307:3306 mysql-database
+```
+
+```
+docker run -d --name my-microservice -p 8080:8080 my-microservice
+```
