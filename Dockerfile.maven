@@ -30,7 +30,7 @@ FROM tomcat:latest
 WORKDIR /usr/local/tomcat/webapps
 
 # Copiar el archivo WAR construido desde la fase de compilación
-COPY --from=build /app/target/*.war ./app.war
+COPY --from=build /app/target/accenture-techhub-0.0.1-SNAPSHOT.war ./app.war
 
 # Puerto de exposición para Tomcat
 EXPOSE 8080
