@@ -1,39 +1,32 @@
-# Imagen base con Maven para compilar
-FROM maven:latest as build
+# Use an official Maven image as the build stage
+FROM maven:3.8.4-openjdk-8-slim AS build
 
-# Instalar Java 8
-RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk
-
-# Directorio de trabajo
+# Set the working directory
 WORKDIR /app
 
-# Copiar solo el archivo pom.xml para descargar dependencias
+# Copy only the pom.xml to cache dependencies
 COPY pom.xml .
 
-# Descargar dependencias
+# Download dependencies
 RUN mvn dependency:go-offline
 
-# Copiar el resto del código
+# Copy the application code
 COPY src src
 
-# Ejecutar pruebas
-RUN mvn test
+# Run tests and build the application
+RUN mvn clean package
 
-# Compilar la aplicación como un archivo WAR
-RUN mvn package
+# Use an official Tomcat image as the runtime stage
+FROM tomcat:9-jdk8-openjdk-slim
 
-# Imagen base para ejecutar la aplicación en un servidor de aplicaciones como Tomcat
-FROM tomcat:latest
-
-# Directorio de trabajo
+# Set the working directory in the Tomcat container
 WORKDIR /usr/local/tomcat/webapps
 
-# Copiar el archivo WAR construido desde la fase de compilación
+# Copy the built WAR file from the build stage to the Tomcat container
 COPY --from=build /app/target/accenture-techhub-0.0.1-SNAPSHOT.war ./app.war
 
-# Puerto de exposición para Tomcat
+# Expose the default port for Tomcat
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
-CMD ["catalina.sh", "jpda", "run"]
+# Command to run the application
+CMD ["catalina.sh", "run"]
