@@ -42,3 +42,17 @@ docker run -d --name mysql-container -p 3307:3306 mysql-database
 docker run -d --name my-microservice -p 8081:8080 my-microservice
 ```
 
+## Comprobaciones Docker
+Docker info
+```
+docker ps
+```
+Network info
+```
+docker network ls
+```
+Find the IP
+```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql-container
+```
+
