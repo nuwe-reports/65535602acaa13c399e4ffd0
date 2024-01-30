@@ -57,6 +57,8 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql-container
 ```
 
+.
+
 <!-- ## Kubernetes 
 
 La imagen fue creada con Kompose
