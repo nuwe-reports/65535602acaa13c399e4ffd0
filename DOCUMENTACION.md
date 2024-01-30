@@ -2,6 +2,8 @@
 
 En este proyecto se uso la librería Mockito para realizar los test.
 
+Todas las rutas de la REST API están en **/app/api**.
+
 ## Testing
 
 ### EntityUnitTest.java
@@ -30,26 +32,14 @@ Podemos utilizar el siguiente comando o hacer los pasos que siguen a continuaci�
 ```
 docker-compose up
 ```
-
-* Construimos las imágenes
-
-``` 
-docker build -t mysql-database -f Dockerfile.mysql .
-```
-```
-docker build -t my-microservice -f Dockerfile.maven .
-```
-
-* Ejecutamos los contenedores
-```
-docker run -d --name mysql-container -p 3307:3306 mysql-database
-```
+Si se prefiere se pueden crear las imágenes
 
 ```
-docker run -d --name my-microservice -p 8081:8080 my-microservice
+docker-compose up --build
 ```
 
 ## Comprobaciones Docker
+
 Docker info
 ```
 docker ps
@@ -67,3 +57,83 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql-container
 ```
 
+<!-- ## Kubernetes 
+
+La imagen fue creada con Kompose
+
+* Instalación
+```
+winget install Kubernetes.kompose
+```
+
+* Convirtiendo la imagen
+```
+kompose convert -f docker-compose.yml
+```
+
+Este comando generará varios archivos `.yaml` que corresponden a los servicios y despliegues definidos en tu archivo `docker-compose.yml`.
+
+
+
+### Montando el Cluster
+
+Utilizando minikube montamos el kluster, pero antes este debe estar instalado.
+
+```
+winget install minikube
+```
+
+* Lo iniciamos
+
+```
+minikube start
+```
+En caso de error se recomienda usar
+
+```
+minikube start --network-plugin=cni --extra-config=kubelet.network-plugin=cni --extra-config=kubelet.pod-cidr=192.168.0.0/16
+```
+
+O simplemente ejecutar el contenedor desde la GUI de **Docker** 
+
+* Verificamos que funciona
+
+```
+kubectl get po -A
+```
+
+* Finalmente, puedes aplicar los archivos generados a tu cluster de Kubernetes con el comando 
+
+```
+kubectl apply -f .
+```
+
+* Verificamos que los deployments están bien
+
+```
+kubectl get deployments
+```
+
+* Verificamos que los servicios funcionan
+
+```
+kubectl get services
+```
+
+* Verificamos el estado de los pods
+
+```
+kubectl get pods
+```
+
+* Abrimos los servicios en el navegador
+
+```
+minikube service <nombre del servicio>
+```
+
+* Exponemos los servicios en el navegador
+
+```
+minikube service kubernetes
+``` -->
