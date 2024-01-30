@@ -93,7 +93,12 @@ minikube start
 En caso de error se recomienda usar
 
 ```
-minikube start --network-plugin=cni --extra-config=kubelet.network-plugin=cni --extra-config=kubelet.pod-cidr=192.168.0.0/16
+minikube start --network-plugin=cni --extra-config=kubelet.network-plugin=cni --extra-config=kubelet.pod-cidr=10.0.0.0/16
+```
+
+```
+minikube stop
+minikube delete
 ```
 
 O simplemente ejecutar el contenedor desde la GUI de **Docker** 

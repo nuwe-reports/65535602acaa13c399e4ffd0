@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accwe_hospital
+  template:
+    metadata:
+      labels:
+        app: accwe_hospital
+    spec:
+      containers:
+      - name: app
+        image: accwe_hospital
+        ports:
+        - containerPort: 8080
