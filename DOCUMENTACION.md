@@ -143,4 +143,10 @@ minikube service <nombre del servicio>
 
 ```
 minikube service kubernetes
-``` -->
+```
+```
+kubectl run -it --rm --image=mysql:5.7 --restart=Never mysql-client -- mysql -h db-service -p
+
+minikube service app-service --url
+```
+ -->
