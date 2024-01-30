@@ -17,14 +17,21 @@ Delete, Get y obtenerTodos/eliminarTodos en cada uno de los controladores dispon
 
 Aquí simplemente me aseguré de obtener todas las citas disponibles para asegurarme
 de que estas no estuviesen repetidas, aprovechando la función **overlaps()** hice
-uso de su valor booleano para que en caso de que ya existierá una cita en dicho
+uso de su valor booleano para que en caso de que ya existiera una cita en dicho
 espació retornará un error como **NOT_ACCEPTABLE**
 
 Posteriormente si todo funciona correctamente guardaría la cita con un **HttpStatus.OK**
 
 ### Montando el Proyecto en Docker
 
-* Construimos las imagenes
+
+Podemos utilizar el siguiente comando o hacer los pasos que siguen a continuación;
+
+```
+docker-compose up
+```
+
+* Construimos las imágenes
 
 ``` 
 docker build -t mysql-database -f Dockerfile.mysql .
@@ -52,7 +59,11 @@ Network info
 docker network ls
 ```
 Find the IP
+
 ```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-microservice
+
+
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql-container
 ```
 
