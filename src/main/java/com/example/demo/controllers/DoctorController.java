@@ -42,7 +42,7 @@ public class DoctorController {
     @GetMapping("/doctors/{id}")
     public ResponseEntity<Doctor> getDoctorById(@PathVariable("id") long id){
         Optional<Doctor> doctor = doctorRepository.findById(id);
-        if (! doctor.isPresent()){
+        if (!doctor.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

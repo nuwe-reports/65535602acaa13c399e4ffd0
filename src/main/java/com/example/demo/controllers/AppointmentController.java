@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class AppointmentController {
-
     @Autowired
     AppointmentRepository appointmentRepository;
 
@@ -51,12 +50,24 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointment")
-    public ResponseEntity<List<Appointment>> createAppointment(@RequestBody Appointment appointment){
-        /** TODO 
-         * Implement this function, which acts as the POST /api/appointment endpoint.
-         * Make sure to check out the whole project. Specially the Appointment.java class
-         */
-        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+    public ResponseEntity<List<Appointment>> createAppointment(@RequestBody Appointment appointment) {
+
+        // Obtenemos todas las citas
+        List<Appointment> existingAppointments = appointmentRepository.findAll();
+
+        //Verificamos que la fecha de comienzo != fecha de finalización
+        if (appointment.getStartsAt().isEqual(appointment.getFinishesAt())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        // Iteramos sobre todas las citas y usamos appoint.overalps para verificar que dicha cita no exista
+        // Si existe retornamos 406, caso contrario lo guardamos.
+        for (Appointment existingAppointment : existingAppointments) {
+            if (appointment.overlaps(existingAppointment)) {
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
+        appointmentRepository.save(appointment);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

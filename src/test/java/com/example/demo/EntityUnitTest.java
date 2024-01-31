@@ -1,50 +1,76 @@
 package com.example.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import org.junit.jupiter.api.BeforeAll;
+import javax.validation.ConstraintViolationException;
+
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
 import com.example.demo.entities.*;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace=Replace.NONE)
-@TestInstance(Lifecycle.PER_CLASS)
 class EntityUnitTest {
 
-	@Autowired
-	private TestEntityManager entityManager;
+    @Autowired
+    private TestEntityManager entityManager;
 
-	private Doctor d1;
+    private Doctor doctor;
+    private Patient patient;
+    private Room room;
+    private Appointment appointment;
 
-	private Patient p1;
+    @BeforeEach
+    void setUp() {
+        doctor = new Doctor("John", "Doe", 35, "john.doe@example.com");
+        patient = new Patient("Alice", "Smith", 28, "alice.smith@example.com");
+        room = new Room("Cardiology");
 
-    private Room r1;
-
-    private Appointment a1;
-    private Appointment a2;
-    private Appointment a3;
-
-    @Test
-    void this_is_a_test(){
-        // DELETE THIS TEST
-        assertThat(false).isEqualTo(true);
+        appointment = new Appointment(patient, doctor, room,
+                LocalDateTime.now(), LocalDateTime.now().plusHours(1));
     }
 
-    /** TODO
-     * Implement tests for each Entity class: Doctor, Patient, Room and Appointment.
-     * Make sure you are as exhaustive as possible. Coverage is checked ;)
-     */
+    @Test
+    void saveAndRetrieveDoctor() {
+        Doctor savedDoctor = entityManager.persistAndFlush(doctor);
+        Doctor retrievedDoctor = entityManager.find(Doctor.class, savedDoctor.getId());
+        assertThat(retrievedDoctor).isEqualTo(savedDoctor);
+        assertThat(retrievedDoctor.getFirstName()).isEqualTo(doctor.getFirstName());
+    }
+
+    @Test
+    void saveAndRetrievePatient() {
+        Patient savedPatient = entityManager.persistAndFlush(patient);
+        Patient retrievedPatient = entityManager.find(Patient.class, savedPatient.getId());
+
+        assertThat(retrievedPatient).isEqualTo(savedPatient);
+        assertThat(retrievedPatient.getFirstName()).isEqualTo(patient.getFirstName());
+    }
+
+    @Test
+    void saveAndRetrieveRoom() {
+        Room savedRoom = entityManager.persistAndFlush(room);
+        Room retrievedRoom = entityManager.find(Room.class, savedRoom.getRoomName());
+
+        assertThat(retrievedRoom).isEqualTo(savedRoom);
+        assertThat(retrievedRoom.getRoomName()).isEqualTo(room.getRoomName());
+    }
+
+    @Test
+    void saveAndRetrieveAppointment() {
+        Appointment savedAppointment = entityManager.persistAndFlush(appointment);
+        Appointment retrievedAppointment = entityManager.find(Appointment.class, savedAppointment.getId());
+        assertThat(retrievedAppointment).isEqualTo(savedAppointment);
+        assertThat(retrievedAppointment.getPatient()).isEqualTo(appointment.getPatient());
+        assertThat(retrievedAppointment.getDoctor()).isEqualTo(appointment.getDoctor());
+        assertThat(retrievedAppointment.getRoom()).isEqualTo(appointment.getRoom());
+    }
 }
