@@ -1,6 +1,9 @@
-# Imagen base
-FROM mysql:latest
+# Usar la imagen oficial de MySQL
+FROM mysql:8.0
 
-# Variables de entorno
+# Establecer variables de entorno para la base de datos
 ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_DATABASE=accwe_hospital
+
+# Exponer el puerto 3306 para que se pueda conectar a la base de datos
+EXPOSE 3306
