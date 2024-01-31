@@ -16,6 +16,6 @@ services:
       dockerfile: Dockerfile.maven
     image: accwe_hospital
     ports:
-      - "8081:8080"
+      - "3000:8080"
     depends_on:
       - db
